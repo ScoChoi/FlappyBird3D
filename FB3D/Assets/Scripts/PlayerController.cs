@@ -9,12 +9,15 @@ public class PlayerController : MonoBehaviour
     public float speed = 0;
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
+    public float fallMultiplier = 2.5f;
+    public float lowJumpMultiplier = 2f;
 
     private Rigidbody rb;
     private int count;
     private float movementX;
     private float movementY;
-    private int jumpCount;
+    
+    
 
     // Start is called before the first frame update
     void Start()
@@ -38,18 +41,15 @@ public class PlayerController : MonoBehaviour
     {
         if(GameObject.Find("Ground"))
         {
-            jumpCount = 0;
+            
         }
     }
 
     void OnJump()
     {
-        if (jumpCount < 2)
-        {
-            Vector3 jump = new Vector3(0.0f, 20.0f, 0.0f);
-            rb.AddForce(jump * speed);
-            jumpCount += 1;
-        }
+        Vector3 jump = new Vector3(0.0f, 20.0f, 0.0f);
+        Vector3 jumpAmount = jump * Time.fixedDeltaTime;
+        rb.AddForce(jumpAmount * speed, ForceMode.Impulse);
     }
 
     void SetCountText()
@@ -63,8 +63,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 movement = new Vector3(movementX, 0.0f, movementY);
+        Vector3 movement = new Vector3(movementX, 0.0f, 0.4f);
         rb.AddForce(movement * speed);
+        
     }
 
     void OnTriggerEnter(Collider other)
