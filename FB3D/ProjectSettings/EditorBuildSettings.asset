@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Template/Scenes/SampleScene.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
   - enabled: 1
-    path: Assets/Scenes/MiniGame.unity
+    path: Assets/Scenes/FlappyBird3D.unity
     guid: e1ef395b4fca5b94897a8d2ce25379d6
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: c23a57b6f2612044e895d4c257501565, type: 2}
