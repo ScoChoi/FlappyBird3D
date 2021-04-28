@@ -8,12 +8,15 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
     public TextMeshProUGUI countText;
+    public TextMeshProUGUI countEnd; 
     public GameObject winTextObject;
+    public GameObject loseTextObject;
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
 
     private Rigidbody rb;
     private int count;
+    private int lost;
     private float movementX;
     private float movementY;
     
@@ -24,9 +27,12 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         count = 0;
+        lost = 0;  
 
         SetCountText();
         winTextObject.SetActive(false);
+        loseTextObject.SetActive(false); 
+
     }
 
     void OnMove(InputValue movementValue)
@@ -36,13 +42,19 @@ public class PlayerController : MonoBehaviour
         movementX = movementVector.x;
         movementY = movementVector.y;
     }
-    
+
     void OnCollisionEnter()
     {
-        if(GameObject.Find("Ground"))
+        if (GameObject.Find("Walls"))
         {
-            
+            lost = 1;
+            SetCountText();
         }
+    }
+
+    void PauseGame() //pause game to end game
+    {
+        Time.timeScale = 0;
     }
 
     void OnJump()
@@ -52,12 +64,25 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(jumpAmount * speed, ForceMode.Impulse);
     }
 
-    void SetCountText()
+    void SetCountText() 
     {
-        countText.text = "Count: " + count.ToString();
-        if(count >= 12)
+        if (lost == 1)
         {
-            winTextObject.SetActive(true);
+            countEnd.text = "Final Score: " + count.ToString();
+            countText.text = "";
+            loseTextObject.SetActive(true);
+            PauseGame();
+
+        }
+        else
+        {
+
+
+            countText.text = "Count: " + count.ToString();
+            if (count >= 10)
+            {
+                winTextObject.SetActive(true);
+            }
         }
     }
 
