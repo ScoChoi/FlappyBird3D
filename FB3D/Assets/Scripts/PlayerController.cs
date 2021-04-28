@@ -6,19 +6,23 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 0;
+    public float speed;
     public TextMeshProUGUI countText;
     public TextMeshProUGUI countEnd; 
     public GameObject winTextObject;
     public GameObject loseTextObject;
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
+    public bool canJump = true;
+    public float _timer = 0f;
+    public float _duration = 0.4f;
 
     private Rigidbody rb;
     private int count;
     private int lost;
     private float movementX;
     private float movementY;
+
     
     
 
@@ -60,16 +64,20 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
-        Vector3 jump = new Vector3(0.0f, 20.0f, 0.0f);
-        Vector3 jumpAmount = jump * Time.fixedDeltaTime;
-        rb.AddForce(jumpAmount * speed, ForceMode.Impulse);
+        
+        if (canJump == true) {
+            Vector3 jump = new Vector3(0.0f, 45.0f, -2f);
+            Vector3 jumpAmount = jump * Time.fixedDeltaTime;
+            rb.AddForce(jumpAmount * speed, ForceMode.Impulse);
+            canJump = false;
+        }
     }
 
     void SetCountText() 
     {
         if (lost == 1)
         {
-            countEnd.text = "Final Score: " + count.ToString();
+            countEnd.text = "Final Score: " +   count.ToString();
             countText.text = "";
             loseTextObject.SetActive(true);
             PauseGame();
@@ -89,7 +97,14 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 movement = new Vector3(movementX, 0.0f, 0.4f);
+        if (canJump == false) {
+            _timer += Time.deltaTime;
+            if(_timer >= _duration) {
+                _timer = 0f;
+                canJump = true;
+            }
+        }
+        Vector3 movement = new Vector3(movementX, 0.0f, 0.1f);
         rb.AddForce(movement * speed);
         
     }
