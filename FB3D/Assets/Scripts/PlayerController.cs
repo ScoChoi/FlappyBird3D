@@ -43,9 +43,10 @@ public class PlayerController : MonoBehaviour
         movementY = movementVector.y;
     }
 
-    void OnCollisionEnter()
+    void OnCollisionEnter(Collision collision)
     {
-        if (GameObject.Find("Walls"))
+        //Debug.Log(collision.gameObject.tag);
+        if (collision.gameObject.tag == "Wall")
         {
             lost = 1;
             SetCountText();
