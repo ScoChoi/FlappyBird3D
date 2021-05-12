@@ -17,6 +17,5 @@ public class SFXScript : MonoBehaviour
                 return;
             }
             sfxInstance = this;
-            DontDestroyOnLoad(this);
     }
 }
