@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlayerController : MonoBehaviour
@@ -20,7 +21,7 @@ public class PlayerController : MonoBehaviour
     public bool canJump = true;
     public float _timer = 0f;
     public float _duration = 0.4f;
-    public float maxSpeed = 10.0f;
+    public float maxSpeed = 10000.0f;
 
     private Rigidbody rb;
     private int start;
@@ -28,9 +29,7 @@ public class PlayerController : MonoBehaviour
     private int lost;
     private float movementX;
     private float movementY;
-
-    
-    
+    private float lastz;
 
     // Start is called before the first frame update
     void Start()
@@ -64,7 +63,9 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Wall")
         {
             lost = 1;
+
             SetCountText();
+
         }
     }
 
@@ -93,10 +94,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnRestart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
+    }
+
     void StartGame()
     {
         start = 2;
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
 
         ControlsText.SetActive(false);
         BeginText.SetActive(false);
@@ -122,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
 
             countText.text = "Count: " + count.ToString();
-            if (count >= 10)
+            if (count >= 22 )
             {
                 winTextObject.SetActive(true);
                 PauseGame();
@@ -151,10 +158,15 @@ public class PlayerController : MonoBehaviour
                 canJump = true;
             }
         }
-        Vector3 movement = new Vector3(movementX, 0.0f, 0.1f);
+        Vector3 movement = new Vector3(movementX, 0.0f, 0.5f);
         rb.AddForce(movement * speed);
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-        
+
+
+        Debug.Log((transform.position.z - lastz) / Time.deltaTime);
+
+        lastz = transform.position.z;
+
     }
 
     void OnTriggerEnter(Collider other)
