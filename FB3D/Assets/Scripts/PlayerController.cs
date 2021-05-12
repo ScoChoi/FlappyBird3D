@@ -8,9 +8,13 @@ public class PlayerController : MonoBehaviour
 {
     public float speed;
     public TextMeshProUGUI countText;
-    public TextMeshProUGUI countEnd; 
+    public TextMeshProUGUI countEnd;
+    public GameObject BeginText; // working on
+    public GameObject ControlsText;
+
     public GameObject winTextObject;
     public GameObject loseTextObject;
+
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
     public bool canJump = true;
@@ -19,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed = 10.0f;
 
     private Rigidbody rb;
+    private int start;
     private int count;
     private int lost;
     private float movementX;
@@ -32,9 +37,12 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         count = 0;
-        lost = 0;  
+        lost = 0;
+        start = 0;
 
-        SetCountText();
+        //SetCountText();
+        BeginText.SetActive(true);
+        ControlsText.SetActive(true);
         winTextObject.SetActive(false);
         loseTextObject.SetActive(false); 
 
@@ -65,9 +73,16 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 0;
     }
 
+
+
     void OnJump()
     {
-        
+
+        if(start == 0)
+        {
+            StartGame();
+        }
+
         if (canJump == true) {
             Vector3 jump = new Vector3(0.0f, 50.0f, -2f);
             Vector3 jumpAmount = jump * Time.fixedDeltaTime;
@@ -77,6 +92,20 @@ public class PlayerController : MonoBehaviour
             SFXScript.sfxInstance.flap.PlayOneShot(SFXScript.sfxInstance.flapJump);
         }
     }
+
+    void StartGame()
+    {
+        start = 2;
+        Time.timeScale = 1;
+
+        ControlsText.SetActive(false);
+        BeginText.SetActive(false);
+
+     
+
+
+    }
+
 
     void SetCountText() 
     {
@@ -96,12 +125,25 @@ public class PlayerController : MonoBehaviour
             if (count >= 10)
             {
                 winTextObject.SetActive(true);
+                PauseGame();
             }
         }
     }
 
     void FixedUpdate()
     {
+        
+        
+
+
+        if(start == 0)
+        {
+            PauseGame();
+        }
+
+
+           
+
         if (canJump == false) {
             _timer += Time.deltaTime;
             if(_timer >= _duration) {
