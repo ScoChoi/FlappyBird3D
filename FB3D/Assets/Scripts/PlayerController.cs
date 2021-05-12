@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public bool canJump = true;
     public float _timer = 0f;
     public float _duration = 0.4f;
+    public float maxSpeed = 10.0f;
 
     private Rigidbody rb;
     private int count;
@@ -38,6 +39,8 @@ public class PlayerController : MonoBehaviour
         loseTextObject.SetActive(false); 
 
     }
+
+
 
     void OnMove(InputValue movementValue)
     {
@@ -66,10 +69,12 @@ public class PlayerController : MonoBehaviour
     {
         
         if (canJump == true) {
-            Vector3 jump = new Vector3(0.0f, 45.0f, -2f);
+            Vector3 jump = new Vector3(0.0f, 50.0f, -2f);
             Vector3 jumpAmount = jump * Time.fixedDeltaTime;
             rb.AddForce(jumpAmount * speed, ForceMode.Impulse);
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
             canJump = false;
+            SFXScript.sfxInstance.flap.PlayOneShot(SFXScript.sfxInstance.flapJump);
         }
     }
 
@@ -106,6 +111,7 @@ public class PlayerController : MonoBehaviour
         }
         Vector3 movement = new Vector3(movementX, 0.0f, 0.1f);
         rb.AddForce(movement * speed);
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
         
     }
 
