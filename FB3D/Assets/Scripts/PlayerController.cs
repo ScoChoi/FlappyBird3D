@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public float lowJumpMultiplier = 2f;
     public bool canJump = true;
     public float _timer = 0f;
-    public float _duration = 0.4f;
+    public float _duration = 0.1f;
     public float maxSpeed = 10000.0f;
 
     private Rigidbody rb;
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if (canJump == true) {
-            Vector3 jump = new Vector3(0.0f, 50.0f, -2f);
+            Vector3 jump = new Vector3(0.0f, 55.0f, -2f);
             Vector3 jumpAmount = jump * Time.fixedDeltaTime;
             rb.AddForce(jumpAmount * speed, ForceMode.Impulse);
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
 
             countText.text = "Count: " + count.ToString();
-            if (count >= 22 )
+            if (count >= 33 )
             {
                 winTextObject.SetActive(true);
                 PauseGame();
