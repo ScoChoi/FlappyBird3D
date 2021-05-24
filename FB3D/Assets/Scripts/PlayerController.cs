@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public float lowJumpMultiplier = 2f;
     public bool canJump = true;
     public float _timer = 0f;
-    public float _duration = 0.1f;
+    public float _duration = 0.05f;
     public float maxSpeed = 10000.0f;
 
     private Rigidbody rb;
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
 
 
             countText.text = "Count: " + count.ToString();
-            if (count >= 33 )
+            if (count >= 66 )
             {
                 winTextObject.SetActive(true);
                 PauseGame();
