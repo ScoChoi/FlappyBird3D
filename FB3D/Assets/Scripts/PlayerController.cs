@@ -7,6 +7,8 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    public DontDestroyAudio caller;
+
     public float speed;
     public TextMeshProUGUI countText;
     public TextMeshProUGUI countEnd;
@@ -24,14 +26,14 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed = 10000.0f;
 
     private Rigidbody rb;
-    private int start;
+    private int start; 
     private int count;
     private int lost;
     private float movementX;
     private float movementY;
     private float lastz;
+    private bool changed = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -44,10 +46,7 @@ public class PlayerController : MonoBehaviour
         ControlsText.SetActive(true);
         winTextObject.SetActive(false);
         loseTextObject.SetActive(false); 
-
     }
-
-
 
     void OnMove(InputValue movementValue)
     {
@@ -73,8 +72,6 @@ public class PlayerController : MonoBehaviour
     {
         Time.timeScale = 0;
     }
-
-
 
     void OnJump()
     {
@@ -107,10 +104,6 @@ public class PlayerController : MonoBehaviour
 
         ControlsText.SetActive(false);
         BeginText.SetActive(false);
-
-     
-
-
     }
 
 
@@ -122,13 +115,15 @@ public class PlayerController : MonoBehaviour
             countText.text = "";
             loseTextObject.SetActive(true);
             PauseGame();
-
         }
         else
         {
-
-
             countText.text = "Count: " + count.ToString();
+            if (count > 1 && !changed)
+            {
+                caller.ChangeMusic();
+                changed = true;
+            }
             if (count >= 66 )
             {
                 winTextObject.SetActive(true);
@@ -139,17 +134,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        
-        
-
-
         if(start == 0)
         {
             PauseGame();
         }
-
-
-           
 
         if (canJump == false) {
             _timer += Time.deltaTime;
@@ -161,12 +149,6 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(movementX, 0.0f, 0.5f);
         rb.AddForce(movement * speed);
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-
-
-        Debug.Log((transform.position.z - lastz) / Time.deltaTime);
-
-        lastz = transform.position.z;
-
     }
 
     void OnTriggerEnter(Collider other)
