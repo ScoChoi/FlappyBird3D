@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             countText.text = "Count: " + count.ToString();
-            if (count > 1 && !changed)
+            if (count > 66 && !changed)
             {
                 caller.ChangeMusic();
                 changed = true;
