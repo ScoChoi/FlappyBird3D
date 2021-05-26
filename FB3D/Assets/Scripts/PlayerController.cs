@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject winTextObject;
     public GameObject loseTextObject;
+    public GameObject loseRestartObject;
 
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
@@ -45,7 +46,8 @@ public class PlayerController : MonoBehaviour
         BeginText.SetActive(true);
         ControlsText.SetActive(true);
         winTextObject.SetActive(false);
-        loseTextObject.SetActive(false); 
+        loseTextObject.SetActive(false);
+        loseRestartObject.SetActive(false);
     }
 
     void OnMove(InputValue movementValue)
@@ -111,9 +113,10 @@ public class PlayerController : MonoBehaviour
     {
         if (lost == 1)
         {
-            countEnd.text = "Final Score: " +   count.ToString();
+            countEnd.text = "Score: " +   count.ToString();
             countText.text = "";
             loseTextObject.SetActive(true);
+            loseRestartObject.SetActive(true);
             PauseGame();
         }
         else
