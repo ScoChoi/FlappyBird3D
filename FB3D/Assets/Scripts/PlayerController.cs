@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        count = 66;
+        count = 0;
         lost = 0;
         start = 0;
 
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
     {
         start = 2;
         Time.timeScale = 1f;
-
+        
         ControlsText.SetActive(false);
         BeginText.SetActive(false);
     }
@@ -119,10 +119,11 @@ public class PlayerController : MonoBehaviour
         else
         {
             countText.text = count.ToString();
-            if (count > 66 && !changed)
+            if (count >= 66 && !changed) //&& !changed
             {
                 caller.ChangeMusic();
                 changed = true;
+                
             }
             if (count >= 100 )
             {
