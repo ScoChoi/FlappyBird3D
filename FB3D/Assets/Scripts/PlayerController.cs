@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        count = 0;
+        count = 66;
         lost = 0;
         start = 0;
 
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
                 caller.ChangeMusic();
                 changed = true;
             }
-            if (count >= 66 )
+            if (count >= 100 )
             {
                 winTextObject.SetActive(true);
                 PauseGame();
