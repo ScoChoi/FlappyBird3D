@@ -6,7 +6,7 @@ using UnityEngine;
 public class DontDestroyAudio : MonoBehaviour
 {
      
-    public AudioClip  SweetsParade;
+    public AudioClip SweetsParade;
     public AudioClip Vordt;
 
     static Object instance = null;

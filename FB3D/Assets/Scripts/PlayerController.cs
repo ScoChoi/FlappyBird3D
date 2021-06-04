@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private int start; 
-    private int count;
+    public int count;
     private int lost;
     private float movementX;
     private float movementY;
@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.tag == "Wall")
         {
+            SFXScript.sfxInstance.flap.PlayOneShot(SFXScript.sfxInstance.splat);
             lost = 1;
 
             SetCountText();
@@ -89,12 +90,34 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(jumpAmount * speed, ForceMode.Impulse);
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
             canJump = false;
-            SFXScript.sfxInstance.flap.PlayOneShot(SFXScript.sfxInstance.flapJump);
+            if (count < 67) {
+                SFXScript.sfxInstance.flap.PlayOneShot(SFXScript.sfxInstance.flapJump);
+            } else {
+                SFXScript.sfxInstance.flap.PlayOneShot(SFXScript.sfxInstance.boss_flapJump);
+            }
         }
     }
-
+    void OnLevel1()
+    {
+        //Vector3 l1 = new Vector3(0.0f, 10.0f, 0.0f);
+        rb.position = new Vector3(0.0f, 15.0f, 0.0f);
+        count = 0;
+    }
+    void OnLevel2()
+    {
+        Vector3 l2 = new Vector3(0.0f, 17.0f, 820.0f);
+        rb.position = l2;
+        count = 33;
+    }
+    void OnLevel3()
+    {
+        Vector3 l3 = new Vector3(0.0f, 17.0f, 1645.0f);
+        rb.position = l3;
+        count = 66;
+    }
     void OnRestart()
     {
+        count = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1f;
     }

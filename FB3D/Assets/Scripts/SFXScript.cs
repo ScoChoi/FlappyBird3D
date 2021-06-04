@@ -6,7 +6,8 @@ using UnityEngine;
 public class SFXScript : MonoBehaviour
 {
     public AudioSource flap;
-
+    public AudioClip boss_flapJump;
+    public AudioClip splat;
     public AudioClip flapJump;
     public static SFXScript sfxInstance;
 
